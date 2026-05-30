@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E·WAN — 3주 여정 리포트 미리보기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;600&family=Noto+Sans+KR:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1916;
+    --ink-soft: #4a4844;
+    --ink-muted: #8a8780;
+    --paper: #f5f2ec;
+    --paper-warm: #ede9e0;
+    --paper-dark: #e0dbd0;
+    --accent: #5c7a5c;
+    --accent-light: #8faf8f;
+    --accent-pale: #dce8dc;
+    --line: rgba(26,25,22,0.09);
+    --gold: #c9a84c;
+    --gold-pale: #f7f0dc;
+    --warm: #b8794a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--paper); color:var(--ink); font-family:'Noto Sans KR',sans-serif; font-weight:300; line-height:1.8; }
+
+  /* 샘플 배너 */
+  .sample-banner {
+    background:var(--gold); color:white; text-align:center; padding:10px;
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    position:sticky; top:0; z-index:100;
+  }
+
+  /* COVER */
+  .cover {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:space-between;
+    padding:64px 80px; background:var(--ink); color:var(--paper);
+    position:relative; overflow:hidden;
+  }
+  .cover::before {
+    content:''; position:absolute; top:-180px; right:-180px; width:560px; height:560px;
+    border-radius:50%; background:radial-gradient(circle,rgba(92,122,92,0.18) 0%,transparent 70%);
+  }
+  .cover::after {
+    content:''; position:absolute; bottom:-100px; left:60px; width:400px; height:400px;
+    border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);
+  }
+
+  .completion-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4);
+    border-radius:24px; padding:8px 18px; margin-bottom:20px;
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em;
+    color:var(--gold); text-transform:uppercase;
+  }
+  .badge-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); }
+
+  /* 타입 배지 */
+  .type-badge {
+    display:inline-flex; flex-direction:column;
+    background:rgba(92,122,92,0.15); border:1px solid rgba(92,122,92,0.4);
+    border-radius:16px; padding:20px 28px; margin-bottom:28px;
+  }
+  .type-label {
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.16em;
+    color:var(--accent-light); text-transform:uppercase; margin-bottom:8px;
+  }
+  .type-name {
+    font-family:'Noto Serif KR',serif; font-size:clamp(20px,3vw,28px);
+    font-weight:200; color:white; letter-spacing:-0.01em; line-height:1.4;
+  }
+  .type-num {
+    font-family:'DM Mono',monospace; font-size:10px;
+    color:rgba(245,242,236,0.35); margin-top:8px; letter-spacing:0.08em;
+  }
+
+  .brand { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.18em; color:rgba(245,242,236,0.28); text-transform:uppercase; }
+  .cover-id { font-family:'DM Mono',monospace; font-size:18px; font-weight:300; color:rgba(245,242,236,0.38); margin-bottom:10px; letter-spacing:0.06em; }
+  .cover-title { font-family:'Noto Serif KR',serif; font-size:clamp(36px,5vw,62px); font-weight:200; line-height:1.15; margin-bottom:20px; letter-spacing:-0.02em; }
+  .cover-title em { font-style:normal; color:var(--accent-light); }
+  .cover-title strong { font-weight:400; color:var(--gold); }
+  .cover-subtitle { font-size:14px; color:rgba(245,242,236,0.42); line-height:2.1; max-width:440px; }
+  .cover-stats { display:flex; gap:40px; margin-top:48px; padding-top:36px; border-top:1px solid rgba(245,242,236,0.1); flex-wrap:wrap; }
+  .cs-num { font-family:'DM Mono',monospace; font-size:32px; font-weight:300; line-height:1; }
+  .cs-num.gold { color:var(--gold); }
+  .cs-label { font-size:11px; color:rgba(245,242,236,0.32); margin-top:6px; letter-spacing:0.06em; }
+  .cover-meta { display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:10px; color:rgba(245,242,236,0.2); letter-spacing:0.08em; flex-wrap:wrap; gap:8px; }
+
+  /* PAGE */
+  .page { max-width:940px; margin:0 auto; padding:84px 80px; }
+  @media(max-width:700px){ .cover{padding:40px 24px;} .page{padding:52px 24px;} .cover-stats{gap:24px;} }
+
+  /* SECTION */
+  .section { margin-bottom:88px; }
+  .section-header { display:flex; align-items:baseline; gap:14px; margin-bottom:36px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+  .section-num { font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted); letter-spacing:0.12em; }
+  .section-title { font-family:'Noto Serif KR',serif; font-size:22px; font-weight:400; }
+  .section-badge { margin-left:auto; font-family:'DM Mono',monospace; font-size:10px; color:var(--gold); background:var(--gold-pale); padding:3px 10px; border-radius:20px; letter-spacing:0.06em; }
+  p.lead { font-size:14px; color:var(--ink-soft); line-height:2; margin-bottom:28px; }
+
+  /* JOURNEY */
+  .journey-grid { display:grid; grid-template-columns:1fr 40px 1fr; gap:0; align-items:center; margin-bottom:28px; }
+  .journey-card { border-radius:12px; padding:28px; }
+  .journey-card.start { background:var(--paper-warm); }
+  .journey-card.end { background:var(--ink); color:var(--paper); }
+  .jc-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:14px; }
+  .jc-label.start { color:var(--ink-muted); }
+  .jc-label.end { color:var(--accent-light); }
+  .jc-row { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+  .jc-key { font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted); width:56px; flex-shrink:0; }
+  .jc-key.d { color:rgba(245,242,236,0.35); }
+  .jc-val { font-size:13px; }
+  .jc-val.em { color:var(--accent-light); font-weight:400; }
+
+  /* CALENDAR */
+  .cal-label-row { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:4px; }
+  .cal-label { font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted); text-align:center; }
+  .cal-wrap { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .cal-day { aspect-ratio:1; border-radius:5px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+  .cal-day.done { background:var(--accent); color:var(--paper); }
+  .cal-day.miss { background:var(--paper-dark); color:var(--ink-muted); }
+  .cal-day.gold { background:var(--gold); color:white; }
+  .cal-day .cd { font-family:'DM Mono',monospace; font-size:12px; }
+  .cal-day .ct { font-size:9px; opacity:.75; font-family:'DM Mono',monospace; }
+  .cal-legend { display:flex; gap:18px; font-size:12px; color:var(--ink-soft); margin-top:10px; flex-wrap:wrap; }
+  .ldot { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; }
+  .att-summary { display:flex; gap:36px; flex-wrap:wrap; background:var(--paper-warm); border-radius:8px; padding:20px 24px; margin-top:18px; }
+  .as-num { font-family:'DM Mono',monospace; font-size:26px; font-weight:300; line-height:1; }
+  .as-num.gold { color:var(--gold); }
+  .as-label { font-size:11px; color:var(--ink-muted); margin-top:4px; }
+
+  /* PHASE */
+  .phase-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .phase-card { border-radius:10px; padding:22px; }
+  .phase-card.p1 { background:var(--paper-warm); }
+  .phase-card.p2 { background:var(--paper-warm); border-top:2px solid var(--accent-light); }
+  .phase-card.p3 { background:var(--ink); color:var(--paper); }
+  .phase-num { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:8px; color:var(--ink-muted); }
+  .phase-card.p3 .phase-num { color:var(--accent-light); }
+  .phase-title { font-family:'Noto Serif KR',serif; font-size:16px; font-weight:300; margin-bottom:12px; line-height:1.4; }
+  .phase-card.p3 .phase-title { color:var(--paper); }
+  .phase-body { font-size:12px; color:var(--ink-soft); line-height:1.85; }
+  .phase-card.p3 .phase-body { color:rgba(245,242,236,0.6); }
+  .phase-stat { font-family:'DM Mono',monospace; font-size:22px; font-weight:300; color:var(--accent); margin-top:14px; }
+  .phase-card.p3 .phase-stat { color:var(--gold); }
+  .phase-stat-label { font-size:11px; color:var(--ink-muted); margin-top:2px; }
+  .phase-card.p3 .phase-stat-label { color:rgba(245,242,236,0.35); }
+
+  /* 잠긴 섹션 */
+  .locked-wrapper {
+    position:relative;
+    margin-bottom:0;
+  }
+  .locked-content {
+    filter:blur(6px);
+    opacity:0.4;
+    pointer-events:none;
+    user-select:none;
+  }
+  .lock-overlay {
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    background:linear-gradient(to bottom, rgba(245,242,236,0) 0%, rgba(245,242,236,0.85) 30%, rgba(245,242,236,0.98) 60%);
+    z-index:10;
+    padding:40px;
+    text-align:center;
+  }
+  .lock-icon {
+    font-size:28px; margin-bottom:16px; opacity:0.5;
+  }
+  .lock-title {
+    font-family:'Noto Serif KR',serif; font-size:22px; font-weight:300;
+    color:var(--ink); margin-bottom:10px; line-height:1.6;
+  }
+  .lock-sub {
+    font-size:13px; color:var(--ink-muted); margin-bottom:28px; line-height:1.8; max-width:360px;
+  }
+  .lock-remaining {
+    display:flex; gap:16px; margin-bottom:28px; flex-wrap:wrap; justify-content:center;
+  }
+  .lock-item {
+    font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted);
+    background:var(--paper-warm); border-radius:20px; padding:6px 14px;
+    letter-spacing:0.08em;
+  }
+  .btn-cta {
+    display:inline-block; padding:18px 48px;
+    background:var(--accent); color:white;
+    border-radius:14px; font-size:16px; font-weight:500;
+    text-decoration:none; letter-spacing:0.02em;
+    transition:opacity 0.2s; margin-bottom:12px;
+  }
+  .btn-cta:hover { opacity:0.85; }
+  .cta-sub {
+    font-size:12px; color:var(--ink-muted);
+  }
+
+  /* 16타입 미리보기 */
+  .type-grid {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
+    margin:24px 0;
+  }
+  .type-chip {
+    background:var(--paper-warm); border-radius:8px;
+    padding:10px 12px; font-size:11px; color:var(--ink-soft);
+    font-family:'Noto Serif KR',serif; font-weight:300;
+    line-height:1.4; text-align:center;
+    border:1px solid var(--line);
+  }
+  .type-chip.current {
+    background:var(--accent); color:white;
+    border-color:var(--accent);
+    font-weight:400;
+  }
+
+  .insight-box { background:var(--accent-pale); border-radius:10px; padding:24px 28px; }
+  .insight-item { font-size:13px; color:var(--ink-soft); line-height:1.9; margin-bottom:10px; padding-left:12px; border-left:2px solid var(--accent-light); }
+
+  .report-footer { margin-top:0; padding:24px 80px; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted); letter-spacing:0.08em; max-width:940px; margin-left:auto; margin-right:auto; }
+  @media(max-width:700px){ .report-footer{padding:24px;} .type-grid{grid-template-columns:repeat(2,1fr);} .phase-grid{grid-template-columns:1fr;} .journey-grid{grid-template-columns:1fr; gap:12px;} }
+</style>
+</head>
+<body>
+
+<div class="sample-banner">예시 리포트 — 실제 참여자 데이터를 바탕으로 만든 샘플입니다</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="brand">E·WAN — 신체 감각 기반 마음챙김 데이터</div>
+
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0;">
+    <div class="completion-badge">
+      <span class="badge-dot"></span>
+      21일 완주 · 3주 여정 Complete
+    </div>
+
+    <div class="type-badge">
+      <div class="type-label">당신의 감각 유형 · 16가지 중</div>
+      <div class="type-name">말단에서 퍼져나가는 깊음</div>
+      <div class="type-num">ES·WV TYPE · 강물형</div>
+    </div>
+
+    <div class="cover-id">참여자 K · 40대 · 직장인</div>
+    <h1 class="cover-title">
+      21일 동안<br>
+      어깨에서 시작해<br>
+      <em>온몸으로</em> <strong>퍼졌습니다</strong>
+    </h1>
+    <p class="cover-subtitle">
+      처음엔 어깨가 바닥에 닿는 느낌이었습니다.<br>
+      마지막엔 한 문장만 남았습니다.<br><br>
+      <strong style="color:rgba(245,242,236,0.7);font-weight:300;">"바닥에 녹아드는 느낌"</strong>
+    </p>
+    <div class="cover-stats">
+      <div><div class="cs-num gold">21</div><div class="cs-label">완주 회차</div></div>
+      <div><div class="cs-num">23</div><div class="cs-label">관찰 일수</div></div>
+      <div><div class="cs-num">22:30</div><div class="cs-label">평균 수행 시각</div></div>
+      <div><div class="cs-num">100%</div><div class="cs-label">응답 신뢰도</div></div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <span>2026.06.21 · 3주 여정 리포트</span>
+    <span>E·WAN — 신체 감각 기반 마음챙김 데이터</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- 감각 유형 섹션 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <h2 class="section-title">당신의 감각 유형</h2>
+      <span class="section-badge">16가지 중 하나</span>
+    </div>
+    <p class="lead">E·WAN은 21일의 데이터를 4가지 축으로 분석해 감각 유형을 찾아냅니다.<br>유형은 좋고 나쁨이 없습니다. 당신 몸이 감각을 받아들이는 고유한 방식입니다.</p>
+
+    <div style="background:var(--ink);color:var(--paper);border-radius:16px;padding:40px 44px;margin-bottom:28px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,242,236,0.28);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:20px;">당신의 감각 유형</div>
+      <div style="font-family:'Noto Serif KR',serif;font-size:clamp(24px,4vw,38px);font-weight:200;line-height:1.3;margin-bottom:16px;letter-spacing:-0.01em;">
+        말단에서 퍼져나가는 깊음
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent-light);letter-spacing:0.1em;margin-bottom:28px;">ES·WV TYPE</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+        <div style="background:rgba(245,242,236,0.06);border-radius:10px;padding:18px 20px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,242,236,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">감각 시작점</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:var(--accent-light);">말단형</div>
+          <div style="font-size:12px;color:rgba(245,242,236,0.45);margin-top:4px;line-height:1.7;">어깨·다리 등 끝에서 감각이 시작됩니다</div>
+        </div>
+        <div style="background:rgba(245,242,236,0.06);border-radius:10px;padding:18px 20px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,242,236,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">주의 패턴</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:var(--accent-light);">확장형</div>
+          <div style="font-size:12px;color:rgba(245,242,236,0.45);margin-top:4px;line-height:1.7;">한 곳에서 시작해 넓게 퍼져나갑니다</div>
+        </div>
+        <div style="background:rgba(245,242,236,0.06);border-radius:10px;padding:18px 20px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,242,236,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">이완 경로</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:var(--accent-light);">느린 깊어짐</div>
+          <div style="font-size:12px;color:rgba(245,242,236,0.45);margin-top:4px;line-height:1.7;">후반부로 갈수록 이완이 깊어집니다</div>
+        </div>
+        <div style="background:rgba(245,242,236,0.06);border-radius:10px;padding:18px 20px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,242,236,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">감각 선명도</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:var(--accent-light);">선명형</div>
+          <div style="font-size:12px;color:rgba(245,242,236,0.45);margin-top:4px;line-height:1.7;">감각이 뚜렷하게 느껴지는 편입니다</div>
+        </div>
+      </div>
+
+      <div style="padding-top:24px;border-top:1px solid rgba(245,242,236,0.1);font-size:13px;color:rgba(245,242,236,0.55);line-height:2;">
+        처음엔 어깨에서 감각을 느끼셨지만, 21일이 지나며 온몸으로 퍼져나갔습니다.<br>
+        강물이 상류에서 시작해 넓은 곳으로 흘러가듯 — 당신의 감각도 그렇게 움직였습니다.
+      </div>
+    </div>
+
+    <!-- 16가지 타입 미리보기 -->
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">16가지 감각 유형</div>
+    <div class="type-grid">
+      <div class="type-chip">천천히<br>스며드는 온기</div>
+      <div class="type-chip">중심에서<br>번지는 선명함</div>
+      <div class="type-chip">빠르게<br>퍼지는 따뜻함</div>
+      <div class="type-chip">깊이<br>모이는 고요함</div>
+      <div class="type-chip current">말단에서<br>퍼져나가는 깊음 ★</div>
+      <div class="type-chip">끝에서<br>시작되는 잔잔함</div>
+      <div class="type-chip">빠르게<br>번지는 선명함</div>
+      <div class="type-chip">중심에<br>머무는 깊음</div>
+      <div class="type-chip">전체로<br>퍼지는 고요함</div>
+      <div class="type-chip">느리게<br>스며드는 선명함</div>
+      <div class="type-chip">말단에서<br>모이는 온기</div>
+      <div class="type-chip">빠르게<br>깊어지는 집중</div>
+      <div class="type-chip">중심에서<br>잔잔히 퍼짐</div>
+      <div class="type-chip">천천히<br>번지는 고요함</div>
+      <div class="type-chip">끝에서<br>깊어지는 선명함</div>
+      <div class="type-chip">전체에<br>퍼지는 온기</div>
+    </div>
+    <div style="font-size:12px;color:var(--ink-muted);margin-top:10px;text-align:center;">★ 표시가 당신의 유형입니다</div>
+  </div>
+
+  <!-- 00. 처음과 마지막 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">처음과 마지막</h2>
+      <span class="section-badge">핵심 비교</span>
+    </div>
+    <p class="lead">1회차와 21회차를 나란히 놓았습니다. 같은 사람이, 같은 자세로, 매일 저녁 10분을 했습니다.</p>
+
+    <div class="journey-grid">
+      <div class="journey-card start">
+        <div class="jc-label start">DAY 1 · 06.01 · 저녁</div>
+        <div class="jc-row"><div class="jc-key">세션 전</div><div class="jc-val">약간 피곤, 긴장됨</div></div>
+        <div class="jc-row"><div class="jc-key">집중</div><div class="jc-val">잘 안 되었다</div></div>
+        <div class="jc-row"><div class="jc-key">감각</div><div class="jc-val">약하게 느껴졌다</div></div>
+        <div class="jc-row"><div class="jc-key">세션 후</div><div class="jc-val">약간 편안해짐</div></div>
+        <div class="jc-row"><div class="jc-key">딴생각</div><div class="jc-val">많았다 (4/5)</div></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-family:'Noto Serif KR',serif;font-size:14px;color:var(--ink-soft);font-style:italic;">"등이 바닥에 닿는 느낌"</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;padding:20px 0;">
+        <div style="flex:1;width:1px;background:var(--line);"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--paper);font-size:12px;flex-shrink:0;">→</div>
+        <div style="flex:1;width:1px;background:var(--line);"></div>
+      </div>
+
+      <div class="journey-card end">
+        <div class="jc-label end">DAY 21 · 06.21 · 저녁</div>
+        <div class="jc-row"><div class="jc-key d">세션 전</div><div class="jc-val">보통, 비교적 안정</div></div>
+        <div class="jc-row"><div class="jc-key d">집중</div><div class="jc-val jc-val em">매우 잘 되었다</div></div>
+        <div class="jc-row"><div class="jc-key d">감각</div><div class="jc-val jc-val em">뚜렷하게 느껴졌다</div></div>
+        <div class="jc-row"><div class="jc-key d">세션 후</div><div class="jc-val jc-val em">매우 편안한 상태</div></div>
+        <div class="jc-row"><div class="jc-key d">딴생각</div><div class="jc-val jc-val em">거의 없었다 (1/5)</div></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(245,242,236,0.1);font-family:'Noto Serif KR',serif;font-size:14px;color:rgba(245,242,236,0.65);font-style:italic;">"바닥에 녹아드는 느낌"</div>
+      </div>
+    </div>
+
+    <div style="background:var(--gold-pale);border-radius:10px;padding:22px 26px;border-left:3px solid var(--gold);">
+      <div style="font-size:13px;color:var(--ink-soft);line-height:2;">
+        처음엔 어깨와 등이 바닥에 닿는 <strong>접촉감</strong>부터 시작했습니다.<br>
+        중반엔 복부가 등장하고, 주의가 몸 전체로 퍼지기 시작했습니다.<br>
+        21일 후, 딴생각은 4에서 1로 줄었고, 세션 후 마음은 매우 고요해졌습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 01. 출석 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">21일의 기록</h2>
+    </div>
+    <p class="lead">6월 1일부터 6월 21일까지. 23일 중 21일 완료. 완료율 91%.</p>
+
+    <div class="cal-label-row">
+      <div class="cal-label">일</div><div class="cal-label">월</div><div class="cal-label">화</div>
+      <div class="cal-label">수</div><div class="cal-label">목</div><div class="cal-label">금</div><div class="cal-label">토</div>
+    </div>
+    <div class="cal-wrap">
+      <div class="cal-day done"><div class="cd">1</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">2</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">3</div><div class="ct">23시</div></div>
+      <div class="cal-day done"><div class="cd">4</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">5</div><div class="ct">22시</div></div>
+      <div class="cal-day miss"><div class="cd">6</div></div>
+      <div class="cal-day done"><div class="cd">7</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">8</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">9</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">10</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">11</div><div class="ct">23시</div></div>
+      <div class="cal-day done"><div class="cd">12</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">13</div><div class="ct">22시</div></div>
+      <div class="cal-day miss"><div class="cd">14</div></div>
+      <div class="cal-day done"><div class="cd">15</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">16</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">17</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">18</div><div class="ct">23시</div></div>
+      <div class="cal-day done"><div class="cd">19</div><div class="ct">22시</div></div>
+      <div class="cal-day done"><div class="cd">20</div><div class="ct">22시</div></div>
+      <div class="cal-day gold"><div class="cd">21</div><div class="ct">22시</div></div>
+    </div>
+    <div class="cal-legend" style="margin-top:10px;">
+      <span><span class="ldot" style="background:var(--accent)"></span>완료</span>
+      <span><span class="ldot" style="background:var(--gold)"></span>완주일</span>
+      <span><span class="ldot" style="background:var(--paper-dark)"></span>미기록</span>
+    </div>
+    <div class="att-summary">
+      <div><div class="as-num gold">21</div><div class="as-label">완주 회차</div></div>
+      <div><div class="as-num">91%</div><div class="as-label">완료율</div></div>
+      <div><div class="as-num">22:30</div><div class="as-label">평균 수행 시각</div></div>
+      <div><div class="as-num">2</div><div class="as-label">빠진 날</div></div>
+    </div>
+  </div>
+
+  <!-- 02. 3단계 흐름 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">21일이 만든 세 개의 장</h2>
+    </div>
+    <p class="lead">21일의 기록은 자연스럽게 세 구간으로 나뉩니다. 데이터가 스스로 나뉘었습니다.</p>
+    <div class="phase-grid">
+      <div class="phase-card p1">
+        <div class="phase-num">1장 · 1~7회</div>
+        <div class="phase-title">탐색<br>어깨를 만나다</div>
+        <div class="phase-body">어깨와 등의 접촉감이 주된 감각이었습니다. 딴생각이 많고 집중이 잘 안 됐지만, 세션 후엔 매번 가벼워졌습니다.</div>
+        <div class="phase-stat">약하게~보통</div>
+        <div class="phase-stat-label">감각 선명도</div>
+      </div>
+      <div class="phase-card p2">
+        <div class="phase-num">2장 · 8~14회</div>
+        <div class="phase-title">안착<br>복부가 열리다</div>
+        <div class="phase-body">복부가 처음으로 등장했습니다. 온기와 무거움이 느껴지기 시작했고, 주의가 한 곳에서 넓어지는 경험이 생겼습니다.</div>
+        <div class="phase-stat">뚜렷하게</div>
+        <div class="phase-stat-label">감각 선명도 상승</div>
+      </div>
+      <div class="phase-card p3">
+        <div class="phase-num">3장 · 15~21회</div>
+        <div class="phase-title">확장<br>몸이 하나가 되다</div>
+        <div class="phase-body">'전체적으로 느껴짐'이 7회 중 5회. 딴생각이 급격히 줄었고, 세션 후 마음이 매우 고요해졌습니다.</div>
+        <div class="phase-stat">6회</div>
+        <div class="phase-stat-label">'훨씬 선명해졌다' 등장</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 잠긴 섹션 -->
+<div class="locked-wrapper">
+  <div class="locked-content">
+    <div class="page" style="padding-top:0;">
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <h2 class="section-title">감각은 어디에서 느껴졌나요</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:240px 1fr;gap:40px;">
+          <div style="background:var(--paper-warm);border-radius:14px;height:400px;"></div>
+          <div>
+            <div style="background:var(--paper-warm);border-radius:8px;height:40px;margin-bottom:12px;"></div>
+            <div style="background:var(--paper-warm);border-radius:8px;height:40px;margin-bottom:12px;"></div>
+            <div style="background:var(--paper-warm);border-radius:8px;height:40px;margin-bottom:12px;"></div>
+            <div style="background:var(--paper-warm);border-radius:8px;height:40px;margin-bottom:12px;"></div>
+            <div style="background:var(--accent-pale);border-radius:10px;height:120px;margin-top:20px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">05</span>
+          <h2 class="section-title">21일의 흐름</h2>
+        </div>
+        <div style="background:var(--paper-warm);border-radius:14px;height:260px;margin-bottom:24px;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="background:var(--paper-warm);border-radius:10px;height:120px;"></div>
+          <div style="background:var(--paper-warm);border-radius:10px;height:120px;"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">06</span>
+          <h2 class="section-title">직접 쓰신 말들</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:var(--paper-warm);border-radius:8px;height:48px;"></div>
+          <div style="background:var(--paper-warm);border-radius:8px;height:48px;"></div>
+          <div style="background:var(--paper-warm);border-radius:8px;height:48px;"></div>
+          <div style="background:var(--paper-warm);border-radius:8px;height:48px;"></div>
+          <div style="background:var(--paper-warm);border-radius:8px;height:48px;"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">07</span>
+          <h2 class="section-title">21일이 만든 패턴</h2>
+        </div>
+        <div style="background:var(--ink);border-radius:14px;height:400px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA 오버레이 -->
+  <div class="lock-overlay">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">
+      아직 4개의 섹션이 남아있습니다
+    </div>
+    <div class="lock-sub">
+      감각 지도, 21일 흐름 차트, 직접 쓰신 말들, 패턴 요약.<br>
+      3주 여정을 완주하면 이 모든 것이 당신의 데이터로 채워집니다.
+    </div>
+    <div class="lock-remaining">
+      <div class="lock-item">04 · 감각 부위 지도</div>
+      <div class="lock-item">05 · 21일 흐름 차트</div>
+      <div class="lock-item">06 · 직접 쓰신 말들</div>
+      <div class="lock-item">07 · 패턴 요약</div>
+    </div>
+    <a href="https://soma.drcorcan.com" class="btn-cta">지금 3주 여정 시작하기 →</a>
+    <div class="cta-sub">매일 10분 · 21일 · 나만의 감각 리포트</div>
+  </div>
+</div>
+
+<div class="report-footer">
+  <span>E·WAN — 신체 감각 기반 마음챙김 데이터 · 3주 여정 샘플 리포트</span>
+  <span>예시 · Sample</span>
+</div>
+
+</body>
+</html>
