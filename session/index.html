@@ -7,7 +7,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="E·WAN">
-<link rel="apple-touch-icon" href="../icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400&family=Noto+Sans+KR:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -52,8 +51,25 @@
     margin-bottom:6px;
   }
   .today-sub {
-    font-size:13px; color:var(--ink-muted); margin-bottom:48px;
+    font-size:13px; color:var(--ink-muted); margin-bottom:36px;
   }
+
+  /* 인사 박스 */
+  .greeting {
+    background:var(--paper-warm); border-radius:14px;
+    padding:28px 32px; margin-bottom:40px;
+    border:1px solid var(--line); line-height:2;
+    font-size:14px; color:var(--ink-soft);
+  }
+  .greeting p { margin-bottom:12px; }
+  .greeting p:last-child { margin-bottom:0; }
+
+  /* 영상 */
+  .video-wrap {
+    margin:0 0 24px; border-radius:14px; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .video-wrap iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
 
   /* 안내 영상 토글 */
   .guide-toggle {
@@ -80,27 +96,28 @@
     transition:transform 0.3s ease;
   }
   .toggle-icon.open { transform:rotate(180deg); }
-  .guide-body {
-    display:none;
-  }
+  .guide-body { display:none; }
   .guide-body.open { display:block; }
   .guide-body .video-wrap {
     margin:0; border-radius:0; border:none;
     border-top:1px solid var(--line);
   }
 
-  /* 영상 */
-  .video-wrap {
-    margin:0 0 40px; border-radius:14px; overflow:hidden;
-    border:1px solid var(--line);
-  }
-  .video-wrap iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
-
-  /* 주차 라벨 */
-  .week-label {
+  /* 주차 세션 카드 */
+  .section-label {
     font-family:'DM Mono',monospace; font-size:10px;
     letter-spacing:0.14em; text-transform:uppercase;
     color:var(--ink-muted); margin-bottom:12px;
+  }
+  .session-card {
+    background:var(--paper-warm); border-radius:14px;
+    padding:28px 32px; margin-bottom:16px;
+    border:1px solid var(--line);
+  }
+  .week-label {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink-muted); margin-bottom:8px;
   }
   .week-title {
     font-family:'Noto Serif KR',serif; font-weight:300;
@@ -109,19 +126,13 @@
   .week-desc {
     font-size:13px; color:var(--ink-muted); margin-bottom:20px; line-height:1.8;
   }
-
-  /* 세션 영상 카드 */
-  .session-card {
-    background:var(--paper-warm); border-radius:14px;
-    padding:28px 32px; margin-bottom:40px;
-    border:1px solid var(--line);
+  .week-notice {
+    font-size:12px; color:var(--ink-muted); margin-top:16px;
+    padding-top:16px; border-top:1px solid var(--line); line-height:1.8;
   }
 
   /* 구분선 */
-  .divider {
-    border:none; border-top:1px solid var(--line);
-    margin:48px 0;
-  }
+  .divider { border:none; border-top:1px solid var(--line); margin:48px 0; }
 
   /* 설문 버튼 */
   .survey-section { text-align:center; }
@@ -148,15 +159,22 @@
 
   /* 홈화면 추가 안내 */
   .home-add {
-    margin-top:48px; padding:22px 26px;
+    margin-top:48px; padding:28px 32px;
     background:var(--gold-pale); border-left:3px solid var(--gold);
-    border-radius:10px;
+    border-radius:12px;
   }
   .home-add-title {
-    font-size:13px; font-weight:500; color:var(--ink); margin-bottom:6px;
+    font-size:14px; font-weight:500; color:var(--ink); margin-bottom:16px;
   }
-  .home-add-text {
-    font-size:12px; color:var(--ink-soft); line-height:1.9;
+  .home-add-os {
+    margin-bottom:16px;
+  }
+  .home-add-os-title {
+    font-size:13px; font-weight:500; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .home-add-step {
+    font-size:12px; color:var(--ink-soft); line-height:2;
+    padding-left:14px; border-left:2px solid var(--gold);
   }
 
   /* 푸터 */
@@ -169,6 +187,8 @@
   @media(max-width:600px){
     .wrap { padding:40px 24px 72px; }
     .session-card { padding:22px 20px; }
+    .greeting { padding:22px 20px; }
+    .home-add { padding:22px 20px; }
   }
 </style>
 </head>
@@ -183,14 +203,25 @@
 
   <!-- 오늘 날짜 -->
   <div class="today" id="today-date"></div>
-  <div class="today-sub">오늘의 세션을 시작하세요</div>
+  <div class="today-sub">오늘의 감각·마음을 기록합니다</div>
+
+  <!-- 인사 및 안내 -->
+  <div class="greeting">
+    <p>안녕하세요.</p>
+    <p>
+      이 기록은 등을 바닥에 대고 무릎을 세워 눕는 자세 <strong>(세미수파인)</strong>로
+      감각을 바라보며 하는 것이 좋습니다.<br>
+      자세한 내용은 아래 안내 영상을 참고해 주세요.<br>
+      <strong>처음 오셨다면 꼭 한 번 시청해 주세요.</strong>
+    </p>
+  </div>
 
   <!-- 안내 영상 (접었다 펼치기) -->
   <div class="guide-toggle">
     <div class="guide-toggle-header" onclick="toggleGuide()">
       <div>
         <div class="guide-label">처음 오셨나요?</div>
-        <div class="guide-title">세션 시작 가이드 영상</div>
+        <div class="guide-title">세션 시작 안내 영상 — 처음 한 번만 시청하세요</div>
       </div>
       <div class="toggle-icon" id="toggle-icon">▾</div>
     </div>
@@ -203,15 +234,24 @@
     </div>
   </div>
 
-  <!-- 1주차 세션 -->
+  <!-- 주차별 세션 영상 -->
+  <div class="section-label">오늘의 감각·마음 기록 안내</div>
+
   <div class="session-card">
     <div class="week-label">Week 1 · 1주차</div>
     <div class="week-title">몸이 바닥에 닿는 감각 찾기</div>
-    <div class="week-desc">조용한 곳에 눕습니다. 영상을 틀고 음성 안내를 따라 10분간 몸을 바라봅니다.</div>
+    <div class="week-desc">
+      이 영상을 들으면서 오늘의 감각·마음을 바라보는 세션을 진행합니다.<br>
+      세션이 끝나면 아래 기록하기 버튼을 눌러 설문지를 작성해 주세요.
+    </div>
     <div class="video-wrap" style="margin:0; border-radius:10px;">
       <iframe src="https://www.youtube.com/embed/XQuIDMehk8Y"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
+    </div>
+    <div class="week-notice">
+      1주에 한 번씩, 총 3주 동안 3개의 영상이 바뀌며 안내됩니다.<br>
+      주차가 바뀌면 별도로 안내해 드립니다.
     </div>
   </div>
 
@@ -231,16 +271,31 @@
 
   <!-- 홈화면 추가 안내 -->
   <div class="home-add">
-    <div class="home-add-title">💡 매일 편하게 접속하려면</div>
-    <div class="home-add-text">
-      이 페이지를 홈화면에 추가하세요.<br>
-      iPhone: 하단 공유 버튼 → 홈 화면에 추가<br>
-      Android: 우측 상단 메뉴 → 홈 화면에 추가
+    <div class="home-add-title">💡 매일 편하게 접속하는 방법 — 홈화면에 추가하기</div>
+
+    <div class="home-add-os">
+      <div class="home-add-os-title">📱 iPhone (Safari)</div>
+      <div class="home-add-step">
+        1. Safari 하단 가운데 공유 버튼(□↑)을 탭합니다<br>
+        2. 아래로 스크롤해서 "홈 화면에 추가"를 탭합니다<br>
+        3. 이름 확인 후 우측 상단 "추가"를 탭합니다<br>
+        4. 홈화면에 E·WAN 아이콘이 생깁니다
+      </div>
+    </div>
+
+    <div class="home-add-os">
+      <div class="home-add-os-title">📱 Android (Chrome)</div>
+      <div class="home-add-step">
+        1. Chrome 우측 상단 점 세 개(⋮) 메뉴를 탭합니다<br>
+        2. "홈 화면에 추가"를 탭합니다<br>
+        3. 이름 확인 후 "추가"를 탭합니다<br>
+        4. 홈화면에 E·WAN 아이콘이 생깁니다
+      </div>
     </div>
   </div>
 
   <div class="footer">
-    E·WAN · 오늘의 감각·마음 기록 · 2026
+    E·WAN · 오늘의 감각·마음 기록
   </div>
 
 </div>
@@ -254,8 +309,7 @@
   const day = days[now.getDay()];
   document.getElementById('today-date').textContent = `${month}월 ${date}일 ${day}요일`;
 
-  // 안내 영상 토글
-  // 첫 방문: 펼침 / 이후: 접힘
+  // 안내 영상 토글 — 첫 방문: 펼침 / 이후: 접힘
   const visited = localStorage.getItem('ewan-session-visited');
   const guideBody = document.getElementById('guide-body');
   const toggleIcon = document.getElementById('toggle-icon');
