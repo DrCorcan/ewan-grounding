@@ -43,18 +43,14 @@
   }
   .brand a:hover { color:var(--accent); }
 
-  /* 날짜 */
   .today {
     font-family:'Noto Serif KR',serif; font-weight:200;
     font-size:clamp(28px,5vw,42px); line-height:1.3;
     letter-spacing:-0.02em; color:var(--ink);
     margin-bottom:6px;
   }
-  .today-sub {
-    font-size:13px; color:var(--ink-muted); margin-bottom:36px;
-  }
+  .today-sub { font-size:13px; color:var(--ink-muted); margin-bottom:36px; }
 
-  /* 인사 박스 */
   .greeting {
     background:var(--paper-warm); border-radius:14px;
     padding:28px 32px; margin-bottom:40px;
@@ -64,14 +60,12 @@
   .greeting p { margin-bottom:12px; }
   .greeting p:last-child { margin-bottom:0; }
 
-  /* 영상 */
   .video-wrap {
     margin:0 0 24px; border-radius:14px; overflow:hidden;
     border:1px solid var(--line);
   }
   .video-wrap iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
 
-  /* 안내 영상 토글 */
   .guide-toggle {
     border:1px solid var(--line); border-radius:12px;
     overflow:hidden; margin-bottom:40px;
@@ -86,12 +80,9 @@
   .guide-toggle-header:hover { background:#cfe0cf; }
   .guide-label {
     font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--accent);
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--accent);
   }
-  .guide-title {
-    font-size:14px; color:var(--ink); margin-top:4px; font-weight:500;
-  }
+  .guide-title { font-size:14px; color:var(--ink); margin-top:4px; font-weight:500; }
   .toggle-btn {
     display:flex; flex-direction:column; align-items:center; gap:2px;
     background:var(--accent); color:white;
@@ -99,98 +90,104 @@
     font-size:11px; font-weight:500; letter-spacing:0.04em;
     white-space:nowrap; flex-shrink:0;
   }
-  .toggle-btn .arrow {
-    font-size:16px; line-height:1;
-    transition:transform 0.3s ease;
-  }
+  .toggle-btn .arrow { font-size:16px; line-height:1; transition:transform 0.3s ease; }
   .toggle-btn .arrow.open { transform:rotate(180deg); }
-  .toggle-icon { display:none; }
   .guide-body { display:none; }
   .guide-body.open { display:block; }
-  .guide-body .video-wrap {
-    margin:0; border-radius:0; border:none;
-    border-top:1px solid var(--line);
-  }
+  .guide-body .video-wrap { margin:0; border-radius:0; border:none; border-top:1px solid var(--line); }
 
-  /* 주차 세션 카드 */
   .section-label {
     font-family:'Noto Serif KR',serif; font-weight:300;
-    font-size:18px; color:var(--ink);
-    margin-bottom:16px; letter-spacing:-0.01em;
+    font-size:18px; color:var(--ink); margin-bottom:16px; letter-spacing:-0.01em;
   }
   .session-card {
     background:var(--paper-warm); border-radius:14px;
-    padding:28px 32px; margin-bottom:16px;
-    border:1px solid var(--line);
+    padding:28px 32px; margin-bottom:16px; border:1px solid var(--line);
   }
   .week-label {
     font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--ink-muted); margin-bottom:8px;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:8px;
   }
   .week-title {
     font-family:'Noto Serif KR',serif; font-weight:300;
     font-size:20px; margin-bottom:6px; color:var(--ink);
   }
-  .week-desc {
-    font-size:13px; color:var(--ink-muted); margin-bottom:20px; line-height:1.8;
-  }
+  .week-desc { font-size:13px; color:var(--ink-muted); margin-bottom:20px; line-height:1.8; }
   .week-notice {
     font-size:12px; color:var(--ink-muted); margin-top:16px;
     padding-top:16px; border-top:1px solid var(--line); line-height:1.8;
   }
 
-  /* 구분선 */
+  /* 이메일 입력 박스 */
+  .email-box {
+    background:var(--gold-pale); border-left:3px solid var(--gold);
+    border-radius:12px; padding:22px 24px; margin-bottom:16px;
+  }
+  .email-box-title { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:4px; }
+  .email-box-desc { font-size:12px; color:var(--ink-muted); margin-bottom:14px; line-height:1.8; }
+  .email-row { display:flex; gap:8px; align-items:center; }
+  .email-input {
+    flex:1; padding:10px 14px;
+    border:1px solid var(--paper-dark); border-radius:8px;
+    background:var(--paper); color:var(--ink);
+    font-family:'Noto Sans KR',sans-serif; font-size:13px;
+    outline:none; transition:border-color 0.2s;
+  }
+  .email-input:focus { border-color:var(--accent); }
+  .email-btn {
+    padding:10px 18px; background:var(--accent); color:white;
+    border:none; border-radius:8px; font-size:13px; font-weight:500;
+    cursor:pointer; white-space:nowrap; transition:opacity 0.2s;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .email-btn:hover { opacity:0.85; }
+  .email-saved {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .email-saved-text { font-size:13px; color:var(--ink-soft); }
+  .email-saved-text strong { color:var(--accent); }
+  .email-change-btn {
+    font-size:11px; color:var(--ink-muted); background:none;
+    border:1px solid var(--line); border-radius:6px;
+    padding:5px 10px; cursor:pointer; white-space:nowrap;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .email-change-btn:hover { color:var(--ink); }
+  .email-error { font-size:12px; color:#c0392b; margin-top:8px; display:none; }
+  .email-loading { font-size:12px; color:var(--ink-muted); margin-top:8px; display:none; }
+
   .divider { border:none; border-top:1px solid var(--line); margin:48px 0; }
 
-  /* 설문 버튼 */
   .survey-section { text-align:center; }
   .survey-label {
     font-family:'DM Mono',monospace; font-size:10px;
-    letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--ink-muted); margin-bottom:12px;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:12px;
   }
   .survey-title {
     font-family:'Noto Serif KR',serif; font-weight:200;
     font-size:22px; line-height:1.6; margin-bottom:8px; color:var(--ink);
   }
-  .survey-desc {
-    font-size:13px; color:var(--ink-muted); margin-bottom:28px; line-height:1.8;
-  }
+  .survey-desc { font-size:13px; color:var(--ink-muted); margin-bottom:28px; line-height:1.8; }
   .btn-survey {
     display:block; width:100%; max-width:400px; margin:0 auto;
     padding:20px; background:var(--accent); color:white;
     text-align:center; border-radius:14px; font-size:16px;
-    font-weight:500; text-decoration:none; letter-spacing:0.02em;
-    transition:opacity 0.2s;
+    font-weight:500; text-decoration:none; letter-spacing:0.02em; transition:opacity 0.2s;
   }
   .btn-survey:hover { opacity:0.85; }
 
-  /* 홈화면 추가 안내 */
   .home-add {
     margin-top:48px; padding:28px 32px;
-    background:var(--gold-pale); border-left:3px solid var(--gold);
-    border-radius:12px;
+    background:var(--gold-pale); border-left:3px solid var(--gold); border-radius:12px;
   }
-  .home-add-title {
-    font-size:14px; font-weight:500; color:var(--ink); margin-bottom:16px;
-  }
-  .home-add-os {
-    margin-bottom:16px;
-  }
-  .home-add-os-title {
-    font-size:13px; font-weight:500; color:var(--ink-soft); margin-bottom:6px;
-  }
-  .home-add-step {
-    font-size:12px; color:var(--ink-soft); line-height:2;
-    padding-left:14px; border-left:2px solid var(--gold);
-  }
+  .home-add-title { font-size:14px; font-weight:500; color:var(--ink); margin-bottom:16px; }
+  .home-add-os { margin-bottom:16px; }
+  .home-add-os-title { font-size:13px; font-weight:500; color:var(--ink-soft); margin-bottom:6px; }
+  .home-add-step { font-size:12px; color:var(--ink-soft); line-height:2; padding-left:14px; border-left:2px solid var(--gold); }
 
-  /* 푸터 */
   .footer {
     margin-top:56px; text-align:center;
-    font-family:'DM Mono',monospace; font-size:10px;
-    color:var(--ink-muted); letter-spacing:0.08em;
+    font-family:'DM Mono',monospace; font-size:10px; color:var(--ink-muted); letter-spacing:0.08em;
   }
 
   @media(max-width:600px){
@@ -198,11 +195,13 @@
     .session-card { padding:22px 20px; }
     .greeting { padding:22px 20px; }
     .home-add { padding:22px 20px; }
+    .email-box { padding:18px 16px; }
+    .email-row { flex-direction:column; }
+    .email-btn { width:100%; }
   }
 </style>
 </head>
 <body>
-
 <div class="wrap">
 
   <div class="brand">
@@ -210,11 +209,10 @@
     <a href="https://soma.drcorcan.com">← 처음으로</a>
   </div>
 
-  <!-- 오늘 날짜 -->
   <div class="today" id="today-date"></div>
   <div class="today-sub">오늘의 감각·마음을 기록합니다</div>
 
-  <!-- 인사 및 안내 -->
+  <!-- 인사 -->
   <div class="greeting">
     <p>안녕하세요.</p>
     <p>
@@ -225,7 +223,7 @@
     </p>
   </div>
 
-  <!-- 안내 영상 (접었다 펼치기) -->
+  <!-- 안내 영상 -->
   <div class="guide-toggle">
     <div class="guide-toggle-header" onclick="toggleGuide()">
       <div>
@@ -249,19 +247,46 @@
   <!-- 주차별 세션 영상 -->
   <div class="section-label">오늘의 감각·마음 기록 안내</div>
 
+  <!-- 이메일 입력 박스 -->
+  <div class="email-box" id="email-box">
+    <div class="email-box-title">📧 이메일을 입력해 주세요</div>
+    <div class="email-box-desc">
+      기초 설문에 입력하신 이메일을 넣어주세요.<br>
+      주차별 음성 안내가 자동으로 맞춰집니다. 한 번만 입력하시면 됩니다.
+    </div>
+    <div id="email-input-area">
+      <div class="email-row">
+        <input class="email-input" type="email" id="email-input"
+          placeholder="example@gmail.com" autocomplete="email">
+        <button class="email-btn" onclick="submitEmail()">확인</button>
+      </div>
+      <div class="email-error" id="email-error">
+        이메일을 찾을 수 없습니다. 기초 설문에 입력한 이메일을 다시 확인해 주세요.
+      </div>
+      <div class="email-loading" id="email-loading">확인 중...</div>
+    </div>
+    <div class="email-saved" id="email-saved-area" style="display:none;">
+      <div class="email-saved-text">✓ <strong id="saved-email-display"></strong><br>
+        <span id="day-count-display" style="font-size:12px; color:var(--accent);"></span>
+      </div>
+      <button class="email-change-btn" onclick="changeEmail()">변경</button>
+    </div>
+  </div>
+
   <div class="session-card">
-    <div class="week-label">Week 1 · 1주차</div>
-    <div class="week-title">몸이 바닥에 닿는 감각 찾기</div>
+    <div class="week-label" id="week-label">Week 1 · 1주차</div>
+    <div class="week-title" id="week-title">몸이 바닥에 닿는 감각 찾기</div>
     <div class="week-desc">
       이 영상을 들으면서 오늘의 감각·마음을 바라보는 세션을 진행합니다.<br>
       세션이 끝나면 아래 기록하기 버튼을 눌러 설문지를 작성해 주세요.
     </div>
     <div class="video-wrap" style="margin:0; border-radius:10px;">
-      <iframe src="https://www.youtube.com/embed/XQuIDMehk8Y"
+      <iframe id="week-video"
+        src="https://www.youtube.com/embed/XQuIDMehk8Y"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
     </div>
-    <div class="week-notice">
+    <div class="week-notice" id="week-notice">
       1주에 한 번씩, 총 3주 동안 3개의 영상이 바뀌며 안내됩니다.<br>
       주차가 바뀌면 별도로 안내해 드립니다.
     </div>
@@ -284,7 +309,6 @@
   <!-- 홈화면 추가 안내 -->
   <div class="home-add">
     <div class="home-add-title">💡 매일 편하게 접속하는 방법 — 홈화면에 추가하기</div>
-
     <div class="home-add-os">
       <div class="home-add-os-title">📱 iPhone (Safari)</div>
       <div class="home-add-step">
@@ -294,7 +318,6 @@
         4. 홈화면에 E·WAN 아이콘이 생깁니다
       </div>
     </div>
-
     <div class="home-add-os">
       <div class="home-add-os-title">📱 Android (Chrome)</div>
       <div class="home-add-step">
@@ -306,37 +329,125 @@
     </div>
   </div>
 
-  <div class="footer">
-    E·WAN · 오늘의 감각·마음 기록
-  </div>
+  <div class="footer">E·WAN · 오늘의 감각·마음 기록</div>
 
 </div>
 
 <script>
-  // 오늘 날짜 표시
+  // 날짜
   const now = new Date();
   const days = ['일','월','화','수','목','금','토'];
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-  const day = days[now.getDay()];
-  document.getElementById('today-date').textContent = `${month}월 ${date}일 ${day}요일`;
+  document.getElementById('today-date').textContent =
+    `${now.getMonth()+1}월 ${now.getDate()}일 ${days[now.getDay()]}요일`;
 
-  // 안내 영상 토글 — 첫 방문: 펼침 / 이후: 접힘
+  // 주차별 영상 데이터
+  const WEEKS = {
+    1: { label:'Week 1 · 1주차', title:'몸이 바닥에 닿는 감각 찾기', videoId:'XQuIDMehk8Y',
+         notice:'1주에 한 번씩, 총 3주 동안 3개의 영상이 바뀌며 안내됩니다.<br>주차가 바뀌면 별도로 안내해 드립니다.' },
+    2: { label:'Week 2 · 2주차', title:'넓어지는 감각 알아차리기', videoId:'SgBmKwMGFNY',
+         notice:'2주차입니다. 감각이 퍼지는 것을 억지로 찾지 않아도 됩니다. 그냥 따라가면 됩니다.' },
+    3: { label:'Week 3 · 3주차', title:'몸과 마음에 말 건네기', videoId:'',
+         notice:'3주차입니다. 이완이 충분히 된 이후에 말을 건넵니다.' }
+  };
+
+  const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSLJhMoQTXaqbqsWu23j1bw34h__OYbLio1UmFq54fCKV0Po1KGB-49d5D4cW4uizil271c6d-xj_NZ/pub?gid=459235071&single=true&output=csv';
+
+  // 안내 영상 토글
   const visited = localStorage.getItem('ewan-session-visited');
   const guideBody = document.getElementById('guide-body');
   const toggleIcon = document.getElementById('toggle-icon');
-
   if (!visited) {
     guideBody.classList.add('open');
     toggleIcon.classList.add('open');
     localStorage.setItem('ewan-session-visited', 'true');
   }
-
   function toggleGuide() {
     guideBody.classList.toggle('open');
     toggleIcon.classList.toggle('open');
   }
-</script>
 
+  // 저장된 이메일 있으면 자동 로드
+  const savedEmail = localStorage.getItem('ewan-email');
+  if (savedEmail) {
+    showSavedState(savedEmail);
+    loadWeek(savedEmail);
+  }
+
+  function showSavedState(email) {
+    document.getElementById('email-input-area').style.display = 'none';
+    document.getElementById('email-saved-area').style.display = 'flex';
+    document.getElementById('saved-email-display').textContent = email;
+  }
+
+  function changeEmail() {
+    localStorage.removeItem('ewan-email');
+    document.getElementById('email-input-area').style.display = 'block';
+    document.getElementById('email-saved-area').style.display = 'none';
+    document.getElementById('email-input').value = '';
+    document.getElementById('email-error').style.display = 'none';
+    applyWeek(1); // 기본 1주차로 리셋
+  }
+
+  document.getElementById('email-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitEmail();
+  });
+
+  function submitEmail() {
+    const input = document.getElementById('email-input').value.trim().toLowerCase();
+    if (!input) return;
+    loadWeek(input);
+  }
+
+  async function loadWeek(email) {
+    document.getElementById('email-loading').style.display = 'block';
+    document.getElementById('email-error').style.display = 'none';
+
+    try {
+      const res = await fetch(CSV_URL + '&t=' + Date.now());
+      const text = await res.text();
+      const rows = text.trim().split('\n').map(r => r.split(','));
+
+      let found = null;
+      for (let i = 1; i < rows.length; i++) {
+        const rowEmail = rows[i][0].replace(/"/g,'').trim().toLowerCase();
+        if (rowEmail === email) { found = rows[i]; break; }
+      }
+
+      document.getElementById('email-loading').style.display = 'none';
+
+      if (!found) {
+        document.getElementById('email-error').style.display = 'block';
+        return;
+      }
+
+      localStorage.setItem('ewan-email', email);
+      showSavedState(email);
+
+      const week = parseInt(found[2]) || 1;
+      const count = parseInt(found[1]) || 0;
+      applyWeek(week);
+      document.getElementById('day-count-display').textContent = `${week}주차 · 누적 ${count}회 완료`;
+
+    } catch(e) {
+      document.getElementById('email-loading').style.display = 'none';
+      // 네트워크 오류 시 1주차 기본 표시
+      applyWeek(1);
+    }
+  }
+
+  function applyWeek(week) {
+    const w = WEEKS[week] || WEEKS[1];
+    document.getElementById('week-label').textContent = w.label;
+    document.getElementById('week-title').textContent = w.title;
+    document.getElementById('week-notice').innerHTML = w.notice;
+    const iframe = document.getElementById('week-video');
+    if (w.videoId) {
+      iframe.src = `https://www.youtube.com/embed/${w.videoId}`;
+      iframe.parentElement.style.display = 'block';
+    } else {
+      iframe.parentElement.style.display = 'none';
+    }
+  }
+</script>
 </body>
 </html>
